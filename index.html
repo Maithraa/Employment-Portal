@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employment Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="#" onclick="showPage('home'); return false;">
+    <span class="brand-icon">EP</span> Employment Portal
+  </a>
+
+  <nav>
+    <button class="nav-link" onclick="showPage('home')">Home</button>
+    <button class="nav-link" onclick="showPage('jobs')">Find Jobs</button>
+    <button class="nav-link" onclick="showPage('post')">Post a Job</button>
+    <button class="nav-link" onclick="showPage('applications')">My Applications</button>
+  </nav>
+
+  <div class="nav-actions" id="navActions">
+    <button class="btn btn-outline" onclick="showPage('login')">Login</button>
+    <button class="btn btn-primary" onclick="showPage('register')">Register</button>
+  </div>
+</header>
+
+<main>
+  <section id="homePage" class="page active">
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">YOUR CAREER STARTS HERE</span>
+        <h1>Find a job that<br><span>fits your future.</span></h1>
+        <p>Explore opportunities, connect with employers, and take the next step in your career.</p>
+        <button class="btn btn-primary btn-large" onclick="showPage('jobs')">Explore Jobs →</button>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-card-top"><span class="dot"></span> Featured opportunity</div>
+        <div class="company-mark">✦</div>
+        <h3>Junior Web Developer</h3>
+        <p class="muted">Bright Solutions · Chennai</p>
+        <div class="tag-row">
+          <span class="tag">Full-time</span>
+          <span class="tag">Entry level</span>
+        </div>
+        <div class="hero-salary">₹3–5 LPA <small>estimated</small></div>
+      </div>
+    </div>
+
+    <section class="stats">
+      <div><strong id="jobCount">22</strong><span>Jobs listed</span></div>
+      <div><strong>Simple</strong><span>Easy job search</span></div>
+      <div><strong>Secure</strong><span>Database-backed demo</span></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <span class="eyebrow">GET STARTED</span>
+        <h2>Everything you need in one place</h2>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon">⌕</div>
+          <h3>Search opportunities</h3>
+          <p>Filter jobs by title, company, or location.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">▤</div>
+          <h3>Apply for jobs</h3>
+          <p>Apply and check your saved application history.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">＋</div>
+          <h3>Hire talent</h3>
+          <p>Employers can publish new opportunities.</p>
+        </article>
+      </div>
+    </section>
+  </section>
+
+  <section id="jobsPage" class="page">
+    <div class="page-heading">
+      <span class="eyebrow">OPPORTUNITIES</span>
+      <h1>Find your next job</h1>
+      <p>Search opportunities stored in the MySQL database.</p>
+    </div>
+
+    <div class="search-panel">
+      <label>Job title or company
+        <input id="searchKeyword" placeholder="e.g. Web Developer">
+      </label>
+      <label>Location
+        <input id="searchLocation" placeholder="e.g. Chennai">
+      </label>
+      <button class="btn btn-primary" onclick="renderJobs()">Search Jobs</button>
+      <button class="btn btn-outline" onclick="clearSearch()">Clear</button>
+    </div>
+
+    <p class="result-count" id="resultCount"></p>
+    <div id="jobsList" class="jobs-grid"></div>
+  </section>
+
+  <section id="loginPage" class="page">
+    <div class="form-wrap">
+      <div class="form-intro">
+        <span class="eyebrow">WELCOME BACK</span>
+        <h1>Login to your account</h1>
+        <p>Sign in to apply or manage job posts.</p>
+      </div>
+      <form id="loginForm" class="panel-form">
+        <label>Email address
+          <input id="loginEmail" type="email" required placeholder="you@example.com">
+        </label>
+        <label>Password
+          <input id="loginPassword" type="password" required placeholder="Your password">
+        </label>
+        <button class="btn btn-primary btn-full" type="submit">Login</button>
+        <p class="form-note">New here? <a href="#" onclick="showPage('register'); return false;">Create an account</a></p>
+      </form>
+    </div>
+  </section>
+
+  <section id="registerPage" class="page">
+    <div class="form-wrap">
+      <div class="form-intro">
+        <span class="eyebrow">JOIN THE PORTAL</span>
+        <h1>Create an account</h1>
+        <p>Register as a job seeker or employer.</p>
+      </div>
+      <form id="registerForm" class="panel-form">
+        <label>Full name
+          <input id="regName" required minlength="2" placeholder="Your full name">
+        </label>
+        <label>Email address
+          <input id="regEmail" type="email" required placeholder="you@example.com">
+        </label>
+        <label>Password
+          <input id="regPassword" type="password" required minlength="6" placeholder="At least 6 characters">
+        </label>
+        <label>Account type
+          <select id="regRole">
+            <option value="seeker">Job Seeker</option>
+            <option value="employer">Employer</option>
+          </select>
+        </label>
+        <button class="btn btn-primary btn-full" type="submit">Create Account</button>
+        <p class="form-note">Already registered? <a href="#" onclick="showPage('login'); return false;">Login</a></p>
+      </form>
+    </div>
+  </section>
+
+  <section id="postPage" class="page">
+    <div class="page-heading">
+      <span class="eyebrow">FOR EMPLOYERS</span>
+      <h1>Post a new job</h1>
+      <p>Publish an opportunity to the database.</p>
+    </div>
+    <form id="jobForm" class="panel-form wide-form">
+      <div class="form-grid">
+        <label>Job title<input id="jobTitle" required placeholder="Software Developer"></label>
+        <label>Company name<input id="companyName" required placeholder="ABC Technologies"></label>
+        <label>Location<input id="jobLocation" required placeholder="Chennai"></label>
+        <label>Salary / package<input id="jobSalary" required placeholder="₹3–5 LPA"></label>
+        <label>Job type
+          <select id="jobType">
+            <option>Full-time</option><option>Part-time</option><option>Internship</option><option>Remote</option><option>Contract</option>
+          </select>
+        </label>
+        <label>Experience
+          <select id="jobExperience">
+            <option>Fresher</option><option>0–2 years</option><option>2–5 years</option><option>5+ years</option>
+          </select>
+        </label>
+      </div>
+      <label>Job description<textarea id="jobDescription" rows="5" required placeholder="Responsibilities and skills..."></textarea></label>
+      <button class="btn btn-primary" type="submit">Publish Job</button>
+    </form>
+  </section>
+
+  <section id="applicationsPage" class="page">
+    <div class="page-heading">
+      <span class="eyebrow">YOUR ACTIVITY</span>
+      <h1>My applications</h1>
+      <p>Applications retrieved from the database.</p>
+    </div>
+    <div id="applicationsList" class="jobs-grid"></div>
+  </section>
+</main>
+
+<footer>
+  <a class="brand footer-brand" href="#" onclick="showPage('home'); return false;">
+    <span class="brand-icon">EP</span> Employment Portal
+  </a>
+  <p>College Project · HTML, CSS, JavaScript, PHP and MySQL</p>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="script.js" defer></script>
+</body>
+</html>
